@@ -3,6 +3,8 @@ using VodPlatform.Infrastructure.Persistence.Contexts;
 using VodPlatform.Infrastructure;
 using VodPlatform.Core.Application;
 using Microsoft.OpenApi.Models;
+using VodPlatform.Core.Application.Abstractions.Services;
+using VodPlatform.Infrastructure.VideoStreaming.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +25,9 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod();
     });
 });
+
+
+builder.Services.AddHttpClient<IDashProxyService, DashProxyService>();
 
 
 
