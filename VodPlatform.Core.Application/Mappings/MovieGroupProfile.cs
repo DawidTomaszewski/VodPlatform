@@ -24,7 +24,7 @@ namespace VodPlatform.Core.Application.Mappings
 
             CreateMap<Movie, MovieDto>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.MovieGroupId, opt => opt.MapFrom(src => src.GetTitle()))
+                .ForMember(dest => dest.MovieGroupId, opt => opt.MapFrom(src => src.MovieGroupId))
                 .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.GetTitle()))
                 .ForMember(dest => dest.Duration, opt => opt.MapFrom(src => src.Duration.ToTotalSeconds()));
         }

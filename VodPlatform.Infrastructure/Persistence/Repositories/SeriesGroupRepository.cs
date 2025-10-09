@@ -10,10 +10,18 @@ public class SeriesGroupRepository : ISeriesGroupRepository
     public SeriesGroupRepository(VodPlatformDbContext context) => _context = context;
 
     public async Task<SeriesGroup?> GetByIdAsync(int id)
-        => await _context.SeriesGroups.FindAsync(id);
+    {
+        return await _context.SeriesGroups
+                             .Include(g => g.Episodes)
+                             .FirstOrDefaultAsync(g => g.Id == id);
+    }
 
     public async Task<IEnumerable<SeriesGroup>> GetAllAsync()
-        => await _context.SeriesGroups.ToListAsync();
+    {
+        return await _context.SeriesGroups
+                     .Include(g => g.Episodes)
+                     .ToListAsync();
+    }
 
     public async Task AddAsync(SeriesGroup group)
         => await _context.SeriesGroups.AddAsync(group);

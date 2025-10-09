@@ -11,10 +11,18 @@ public class MovieGroupRepository : IMovieGroupRepository
     public MovieGroupRepository(VodPlatformDbContext context) => _context = context;
 
     public async Task<MovieGroup?> GetByIdAsync(int id)
-        => await _context.MovieGroups.FindAsync(id);
+    {
+        return await _context.MovieGroups
+                             .Include(g => g.Movies)
+                             .FirstOrDefaultAsync(g => g.Id == id);
+    }
 
     public async Task<IEnumerable<MovieGroup>> GetAllAsync()
-        => await _context.MovieGroups.ToListAsync();
+    {
+        return await _context.MovieGroups
+                             .Include(g => g.Movies)
+                             .ToListAsync();
+    }
 
     public async Task AddAsync(MovieGroup group)
         => await _context.MovieGroups.AddAsync(group);

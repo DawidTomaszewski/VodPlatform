@@ -16,11 +16,11 @@ namespace VodPlatform.WebApi.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost]
+        [HttpPost("AddMovieGroup")]
         public async Task<IActionResult> AddMovieGroup([FromBody] AddMovieGroupCommand command)
             => Ok(await _mediator.Send(command));
 
-        [HttpDelete("{id}")]
+        [HttpDelete("RemoveMovieGroup/{id}")]
         public async Task<IActionResult> RemoveMovieGroup(int id)
             => Ok(await _mediator.Send(new RemoveMovieGroupCommand(id)));
 
@@ -38,7 +38,7 @@ namespace VodPlatform.WebApi.Controllers
         public async Task<IActionResult> GetById(int id)
             => Ok(await _mediator.Send(new GetMovieGroupByIdQuery(id)));
 
-        [HttpGet]
+        [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
             => Ok(await _mediator.Send(new GetAllMovieGroupsQuery()));
     }

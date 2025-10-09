@@ -16,11 +16,11 @@ namespace VodPlatform.WebApi.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost]
+        [HttpPost("AddSeriesGroup")]
         public async Task<IActionResult> AddSeriesGroup([FromBody] AddSeriesGroupCommand command)
             => Ok(await _mediator.Send(command));
 
-        [HttpDelete("{id}")]
+        [HttpDelete("RemoveSeriesGroup/{id}")]
         public async Task<IActionResult> RemoveSeriesGroup(int id)
             => Ok(await _mediator.Send(new RemoveSeriesGroupCommand(id)));
 
@@ -38,7 +38,7 @@ namespace VodPlatform.WebApi.Controllers
         public async Task<IActionResult> GetById(int id)
             => Ok(await _mediator.Send(new GetSeriesGroupByIdQuery(id)));
 
-        [HttpGet]
+        [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
             => Ok(await _mediator.Send(new GetAllSeriesGroupsQuery()));
     }
