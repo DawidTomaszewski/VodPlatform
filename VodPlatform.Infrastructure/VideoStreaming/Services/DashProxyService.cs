@@ -10,29 +10,22 @@ namespace VodPlatform.Infrastructure.VideoStreaming.Services
 {
     public class DashProxyService : IDashProxyService
     {
-        private readonly HttpClient _httpClient;
         private readonly string _nginxBaseUrl;
 
-        public DashProxyService(HttpClient httpClient, IConfiguration configuration)
+        public DashProxyService(IConfiguration configuration)
         {
-            _httpClient = httpClient;
             _nginxBaseUrl = configuration["DashStreaming:NginxBaseUrl"]
                             ?? throw new ArgumentNullException("DashStreaming:NginxBaseUrl is missing in configuration.");
         }
 
-        public async Task<Stream> GetRemoteFileAsync(string relativePath, CancellationToken cancellationToken = default)
+        // Zwraca link do pliku .mpd
+        public async Task<string> GetMpdFileUrl(string relativePath)
         {
             var decodedPath = Uri.UnescapeDataString(relativePath);
-            var fullUrl = $"{_nginxBaseUrl}{decodedPath}";
-
-            var response = await _httpClient.GetAsync(fullUrl, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
-
-            if (!response.IsSuccessStatusCode)
-                throw new FileNotFoundException($"File not found: {fullUrl}");
-
-            return await response.Content.ReadAsStreamAsync(cancellationToken);
+            return $"{_nginxBaseUrl}{decodedPath}";
         }
 
+        // Pozostaje przydatne do typu MIME
         public string GetContentType(string filePath)
         {
             var ext = Path.GetExtension(filePath).ToLowerInvariant();

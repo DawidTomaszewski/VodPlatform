@@ -8,7 +8,7 @@ namespace VodPlatform.Core.Application.Abstractions.Services
 {
     public interface IDashProxyService
     {
-        Task<Stream> GetRemoteFileAsync(string relativePath, CancellationToken cancellationToken = default);
+        Task<string> GetMpdFileUrl(string relativePath);
         string GetContentType(string filePath);
     }
 }

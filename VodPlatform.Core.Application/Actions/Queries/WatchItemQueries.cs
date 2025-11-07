@@ -50,10 +50,16 @@ namespace VodPlatform.Core.Application.Actions.Queries
         public async Task<List<WatchItemDto>> Handle(GetWatchItemsQuery request, CancellationToken cancellationToken)
         {
             var watchedlist = await _repository.GetByUserIdAsync(request.UserId);
+            if (watchedlist != null)
+            {
+                var WatchItemlist = watchedlist.GetWatchItems();
+                return _mapper.Map<List<WatchItemDto>>(WatchItemlist);
 
-            var WatchItemlist = watchedlist.GetWatchItems();
-
-            return _mapper.Map<List<WatchItemDto>>(WatchItemlist);
+            }
+            else
+            {
+                return new List<WatchItemDto>();
+            }
         }
     }
 }

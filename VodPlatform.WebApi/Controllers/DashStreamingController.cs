@@ -14,15 +14,14 @@ namespace VodPlatform.WebApi.Controllers
             _dashProxyService = dashProxyService;
         }
 
-        [HttpGet("ProxyDashFile/{*relativePath}")]
-        public async Task<IActionResult> ProxyDashFile([FromRoute] string relativePath, CancellationToken cancellationToken)
+        [HttpGet("{*relativePath}")]
+        public async Task<IActionResult> ProxyDashFile([FromRoute] string relativePath)
         {
             try
             {
-                var stream = await _dashProxyService.GetRemoteFileAsync(relativePath, cancellationToken);
-                var contentType = _dashProxyService.GetContentType(relativePath);
+                var stream = await _dashProxyService.GetMpdFileUrl(relativePath);
 
-                return File(stream, contentType, enableRangeProcessing: false);
+                return Ok(stream);
             }
             catch (FileNotFoundException)
             {

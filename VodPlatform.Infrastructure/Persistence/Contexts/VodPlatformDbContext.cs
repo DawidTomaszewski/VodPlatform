@@ -1,11 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using VodPlatform.Core.Domain.Aggregates;
 using VodPlatform.Core.Domain.Entities;
 using VodPlatform.Core.Domain.ValueObjects;
+using VodPlatform.Core.Domain.Entities;
 
 namespace VodPlatform.Infrastructure.Persistence.Contexts
 {
-    public class VodPlatformDbContext : DbContext
+    public class VodPlatformDbContext : IdentityDbContext<ApplicationUser>
     {
         public VodPlatformDbContext(DbContextOptions<VodPlatformDbContext> options)
             : base(options) { }
@@ -20,6 +22,8 @@ namespace VodPlatform.Infrastructure.Persistence.Contexts
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Episode> Episodes { get; set; }
         public DbSet<Duration> Durations { get; set; }
+        public DbSet<ApplicationUser> User { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
