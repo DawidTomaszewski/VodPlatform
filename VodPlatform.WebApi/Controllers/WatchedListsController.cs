@@ -28,9 +28,9 @@ namespace VodPlatform.WebApi.Controllers
         public async Task<IActionResult> GetWatchedItemById(int watchedItemId, string userId)
             => Ok(await _mediator.Send(new GetWatchedItemByIdQuery(watchedItemId, userId)));
 
-        [HttpPost("AddWatchedList")]
-        public async Task<IActionResult> AddWatchedList([FromBody] AddWatchedListCommand command)
-            => Ok(await _mediator.Send(command));
+        [HttpPost("AddWatchedList/{userId}")]
+        public async Task<IActionResult> AddWatchedList(string userId)
+            => Ok(await _mediator.Send(new AddWatchedListCommand(userId)));
 
         [HttpDelete("RemoveWatchedList/{userId}")]
         public async Task<IActionResult> RemoveWatchedList(string userId)
